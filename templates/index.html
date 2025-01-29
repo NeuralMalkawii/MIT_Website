@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workout Tracker - Home</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 font-sans antialiased">
+    <!-- Header -->
+    <header class="bg-blue-600 text-white text-center py-6">
+        <h1 class="text-3xl font-bold">Welcome, <span id="userName">User</span>!</h1>
+        <p class="text-lg">Track your progress and choose your workout!</p>
+        </header>
+        <script>
+            // Display the user's name on the Home Page
+            document.addEventListener('DOMContentLoaded', () => {
+                const userName = localStorage.getItem('userName');
+                document.getElementById('userName').textContent = userName || "User";
+            });
+        </script>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Today's Stats -->
+        <section class="mb-8 bg-white shadow-md rounded-lg p-6">
+            <h2 class="text-2xl font-semibold mb-4 text-blue-600">Today's Stats</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="text-center">
+                    <p class="text-lg font-medium text-gray-600">Calories Burnt</p>
+                    <p id="calories-burnt" class="text-2xl font-bold text-gray-800">150 kcal</p>
+                </div>
+                <div class="text-center">
+                    <p class="text-lg font-medium text-gray-600">Heart Rate</p>
+                    <p id="heart-rate" class="text-2xl font-bold text-gray-800">120 bpm</p>
+                </div>
+                <div class="text-center">
+                    <p class="text-lg font-medium text-gray-600">Reps Completed</p>
+                    <p id="reps-completed" class="text-2xl font-bold text-gray-800">50</p>
+                </div>
+                <div class="text-center">
+                    <p class="text-lg font-medium text-gray-600">Workouts Completed</p>
+                    <p id="workouts-completed" class="text-2xl font-bold text-gray-800">2</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Select a Workout -->
+        <section>
+            <div class="text-center">
+                    <h2 class="text-2xl font-semibold mb-4 text-blue-600">Select a Workout</h2>
+            </div>
+            <div class="flex flex-col md:flex-row gap-4 justify-center">
+                
+                <div onclick="location.href='/pushup'"
+                    class="flex flex-col items-center bg-blue-500 text-white p-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform">
+                    <img src="push-up.png" alt="Push Ups" class="mb-4 w-24 h-24">
+                    <p class="text-lg font-semibold">Push Ups</p>
+                </div>
+                <div onclick="location.href='/bicep'"
+                    class="flex flex-col items-center bg-blue-500 text-white p-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform">
+                    <img src="https://img.icons8.com/color/96/biceps.png" alt="Bicep Curls" class="mb-4">
+                    <p class="text-lg font-semibold">Bicep Curls</p>
+            </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white text-center py-4">
+        <p>&copy; 2025 GetFit Tracker</p>
+    </footer>
+
+    <script src="../static/script.js"></script>
+</body>
+
+</html>

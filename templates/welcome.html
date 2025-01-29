@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome - GetFit Tracker</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="#3f5154 font-sans antialiased">
+    <!-- Welcome Header -->
+    <header class="bg-blue-600 text-white text-center py-6">
+        <h1 class="text-3xl font-bold">Welcome to TherapyTrail</h1>
+        <p class="text-lg">Let's set up your profile!</p>
+    </header>
+
+    <!-- Form Section -->
+    <main class="container mx-auto px-4 py-8">
+        <form id="userForm" class="bg-white shadow-md rounded-lg p-6 max-w-lg mx-auto">
+            <h2 class="text-2xl font-semibold text-blue-600 mb-4">Enter Your Details</h2>
+
+            <!-- Name -->
+            <div class="mb-4">
+                <label for="name" class="block text-gray-700 font-medium mb-2">Name</label>
+                <input type="text" id="name" class="w-full border rounded-lg px-4 py-2" placeholder="Enter your name"
+                    required>
+            </div>
+
+            <!-- Age -->
+            <div class="mb-4">
+                <label for="age" class="block text-gray-700 font-medium mb-2">Age</label>
+                <input type="number" id="age" class="w-full border rounded-lg px-4 py-2" placeholder="Enter your age"
+                    required>
+            </div>
+
+            <!-- Height -->
+            <div class="mb-4">
+                <label for="height" class="block text-gray-700 font-medium mb-2">Height (cm)</label>
+                <input type="number" id="height" class="w-full border rounded-lg px-4 py-2"
+                    placeholder="Enter your height in cm" required>
+            </div>
+
+            <!-- Weight -->
+            <div class="mb-4">
+                <label for="weight" class="block text-gray-700 font-medium mb-2">Weight (kg)</label>
+                <input type="number" id="weight" class="w-full border rounded-lg px-4 py-2"
+                    placeholder="Enter your weight in kg" required>
+            </div>
+
+            <!-- Gender -->
+            <div class="mb-4">
+                <label for="gender" class="block text-gray-700 font-medium mb-2">Gender</label>
+                <select id="gender" class="w-full border rounded-lg px-4 py-2" required>
+                    <option value="" disabled selected>Select your gender</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit"
+                class="w-full bg-blue-600 text-white font-bold py-2 rounded-lg hover:bg-green-700 transition">
+                Continue to Home
+            </button>
+        </form>
+    </main>
+
+    <footer class="bg-gray-800 text-white text-center py-4">
+        <p>&copy; 2025 TherapyTrail</p>
+    </footer>
+
+    <script>
+        // Handle form submission
+        document.getElementById('userForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            // Get user input values
+            const name = document.getElementById('name').value;
+            const age = document.getElementById('age').value;
+            const height = document.getElementById('height').value;
+            const weight = document.getElementById('weight').value;
+            const gender = document.getElementById('gender').value;
+
+            // Store data in localStorage
+            localStorage.setItem('userName', name);
+            localStorage.setItem('userAge', age);
+            localStorage.setItem('userHeight', height);
+            localStorage.setItem('userWeight', weight);
+            localStorage.setItem('userGender', gender);
+
+            // Redirect to Home Page
+            window.location.href = 'index.html';
+        });
+    </script>
+</body>
+
+</html>
