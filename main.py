@@ -1,3 +1,4 @@
+import random
 from fastapi import FastAPI, Request, WebSocket
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
@@ -5,14 +6,16 @@ from fastapi.templating import Jinja2Templates
 import websockets
 import uvicorn
 import socket
+import asyncio
 
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 template = Jinja2Templates(directory="templates")
 
+
 @app.get("/", response_class=HTMLResponse)
-async def home(request:Request):
+async def home(request: Request):
     return template.TemplateResponse("index.html", {"request": request})
 
 
@@ -30,6 +33,16 @@ async def home(request: Request):
 async def get_data():
     return {"data": "Hello World"}
 
+
+@app.websocket("/ws/heart-rate")
+async def websocket_endpoint(websocket: WebSocket):
+    await websocket.accept()
+    while True:
+        heart_rate = random.randint(80, 90)
+        await websocket.send_text(str(heart_rate))
+        await asyncio.sleep(1)
+
+
 @app.websocket("/ws")
 async def websocket_endpoint(websocket: WebSocket):
     ESP_IP = "172.20.10.3"
@@ -40,7 +53,7 @@ async def websocket_endpoint(websocket: WebSocket):
         try:
             # Create a socket
             client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            client_socket.settimeout(2.0) 
+            client_socket.settimeout(2.0)
             client_socket.connect((ESP_IP, ESP_PORT))
             print("Connected to ESP32")
             while True:
@@ -59,8 +72,10 @@ async def websocket_endpoint(websocket: WebSocket):
             await websocket.close()
             client_socket.close()
             print("Websocket client disconnected")
+
+
 if __name__ == "__main__":
-   
+
     uvicorn.run(app, host="127.0.0.1", port=8000, log_level="info")
 
 # import socket

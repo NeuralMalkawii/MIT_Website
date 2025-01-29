@@ -34,8 +34,24 @@
                 </div>
                 <div class="text-center">
                     <p class="text-lg font-medium text-gray-600">Heart Rate</p>
-                    <p id="heart-rate" class="text-2xl font-bold text-gray-800">120 bpm</p>
+                    <p id="heart-rate" class="text-2xl font-bold text-gray-800">Loading...</p>
                 </div>
+                <script>
+                    const heartRateElement = document.getElementById('heart-rate');
+                    const ws = new WebSocket('ws://localhost:8000/ws/heart-rate');
+
+                    ws.onmessage = function (event) {
+                        heartRateElement.textContent = event.data;
+                    };
+
+                    ws.onclose = function (event) {
+                        heartRateElement.textContent = 'Connection closed';
+                    };
+
+                    ws.onerror = function (event) {
+                        heartRateElement.textContent = 'Error occurred';
+                    };
+                </script>
                 <div class="text-center">
                     <p class="text-lg font-medium text-gray-600">Reps Completed</p>
                     <p id="reps-completed" class="text-2xl font-bold text-gray-800">50</p>
