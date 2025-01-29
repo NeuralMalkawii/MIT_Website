@@ -36,27 +36,29 @@ async def websocket_endpoint(websocket: WebSocket):
     ESP_PORT = 8000
     await websocket.accept()
     print("Websocket client connected")
-    try:
-    # Create a socket
-        client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        client_socket.connect((ESP_IP, ESP_PORT))
-        print("Connected to ESP32")
-        while True:
-            try:
-                response = client_socket.recv(1024).decode()
-                print("Response from ESP: ", response)
-                if response[-1] != "\n":
+    if websocket.url.path == "/ws":
+        try:
+            # Create a socket
+            client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            client_socket.settimeout(2.0) 
+            client_socket.connect((ESP_IP, ESP_PORT))
+            print("Connected to ESP32")
+            while True:
+                try:
+                    response = client_socket.recv(1024).decode()
                     print("Response from ESP: ", response)
-                    await websocket.send_text(response)
-            except Exception as e:
-                print("Error", e)
-                break
-    except Exception as e:
-        print("ESP Connection Error", e)
-    finally:
-        await websocket.close()
-        client_socket.close()
-        print("Websocket client disconnected")
+                    if response[-1] != "\n":
+                        print("Response from ESP: ", response)
+                        await websocket.send_text(response)
+                except Exception as e:
+                    print("Error", e)
+                    break
+        except Exception as e:
+            print("ESP Connection Error", e)
+        finally:
+            await websocket.close()
+            client_socket.close()
+            print("Websocket client disconnected")
 if __name__ == "__main__":
    
     uvicorn.run(app, host="127.0.0.1", port=8000, log_level="info")

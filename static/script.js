@@ -1,32 +1,31 @@
-
-    const socket = new WebSocket(`ws://${window.location.host}/ws`);
-    try{
- socket.addEventListener("open", (event) => { 
-        console.log("Connected")
-    });
-    socket.addEventListener("message", (event) => {
-        console.log("Message from server ", event.data);
-        //26, RS
-        //25, LE
-        lines = event.data.split("\n");
-        for(line in lines){
-            try{
-                
-            }catch{
-                console.log("error: ", line)
-            }
-        }
-
-        document.getElementById("reps").textContent = event.data;
-    });
-    }catch(err){
-        console.log("error: connection failed: ", err)
-    }
-   
-
-
-
 document.addEventListener("DOMContentLoaded", () => {
+    //Only establish socket connection if the page is an exercise page
+
+    if (document.getElementById("exercise-reps")) {
+        const socket = new WebSocket(`ws://${window.location.host}/ws`);
+        
+        socket.addEventListener("open", (event) => { 
+            console.log("Connected to WebSocket");
+        });
+
+        socket.addEventListener("message", (event) => {
+            console.log("Message from server ", event.data);
+            lines = event.data.split("\n");
+            for(line in lines){
+                try{
+                    // Your existing line processing code
+                }catch{
+                    console.log("error: ", line)
+                }
+            }
+            document.getElementById("reps").textContent = event.data;
+        });
+
+        socket.addEventListener("error", (error) => {
+            console.error("WebSocket error:", error);
+        });
+    }
+
 
     // Load stored data or set default values
     let totalTime = parseInt(localStorage.getItem("totalTime")) || 0;
